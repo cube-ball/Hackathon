@@ -164,8 +164,11 @@ def replan(state, now=None):
                         length = min(prefs["session_minutes"], need, room_day, gap)
                         length -= length % SLOT if length >= SLOT else 0
                         leftover = need - length
-                        if 0 < leftover < MIN_SESSION and length + leftover <= min(gap, room_day):
-                            length = need          # finish the task instead of leaving a tiny scrap
+                        if 0 < leftover < MIN_SESSION:
+                            if length + leftover <= min(gap, room_day):
+                                length = need      # finish the task instead of leaving a tiny scrap
+                            elif need - MIN_SESSION >= MIN_SESSION:
+                                length = need - MIN_SESSION   # leave a proper-sized last session
                         if length <= 0 or (length < MIN_SESSION and length < need):
                             break
                         s_start = g_start

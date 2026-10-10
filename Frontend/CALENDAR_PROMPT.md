@@ -1,5 +1,9 @@
 # Prompt: Google-Calendar-style frontend
 
+> **Status: DONE.** The calendar UI is now built (`ui/week_calendar.py`, `ui/calendar_html.py`,
+> `ui/sidebar.py`, updated `app.py`, `ui/chat.py`, `ui/tasks.py`). It uses a built-in HTML time grid,
+> so no extra package is needed. Keep this prompt only as a reference for further changes.
+
 Who uses this: the frontend person.
 Where: Claude Code or Codex, started inside `~/Hackathon` (the repo root), on a new branch.
 First run in Terminal: `cd ~/Hackathon && git checkout main && git pull && git checkout -b frontend/calendar`

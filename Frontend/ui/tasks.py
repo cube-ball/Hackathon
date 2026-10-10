@@ -2,10 +2,23 @@ from datetime import date, datetime, time, timedelta
 import streamlit as st
 
 
+PRIORITY_COLOURS = {"Overdue": "#d93025", "High": "#d93025", "Medium": "#f29900", "Low": "#188038", "Done": "#5f6368"}
+
+
 def render_tasks(state, dispatch, revision):
-    for task in state["tasks"]:
-        st.write(f"**{task['title']}** — {task['remaining_minutes']} minutes remaining")
-        st.caption(f"Due {task['deadline']} · {task['priority']} · {task['reason']}")
+    colours = {m["code"]: m.get("colour", "#1a73e8") for m in (state.get("profile") or {}).get("modules", [])}
+    if not state["tasks"]:
+        st.caption("No deadlines yet. Tell the coach about one, or add it below.")
+    for task in sorted(state["tasks"], key=lambda t: t["deadline"]):
+        due = datetime.fromisoformat(task["deadline"])
+        dot = colours.get(task.get("module"), "#1a73e8")
+        badge = PRIORITY_COLOURS.get(task.get("priority"), "#5f6368")
+        hours = task["remaining_minutes"] / 60
+        st.markdown(
+            f"<div class='task'><span class='dot' style='background:{dot}'></span>"
+            f"<div><b>{task['title']}</b> <span class='badge' style='background:{badge}'>{task.get('priority') or '–'}</span>"
+            f"<br><span class='sub'>Due {due:%a %d %b, %H:%M} · {hours:.1f} h left · {task.get('reason', '')}</span></div></div>",
+            unsafe_allow_html=True)
     with st.expander("Add or edit a task"):
         choices = {t["id"]: t for t in state["tasks"]}
         chosen = st.selectbox("Task", ["new"] + list(choices), format_func=lambda x: "Add new task" if x == "new" else choices[x]["title"])
