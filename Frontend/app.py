@@ -10,9 +10,15 @@ from ui.commitments import render_commitments
 
 st.set_page_config(page_title="StudyFlow", page_icon="📅", layout="wide")
 if "plan" not in st.session_state:
-    st.session_state.plan = initial_state() if DEMO_MODE else {
-        "tasks": [], "commitments": [], "sessions": [], "warnings": []}
-    st.session_state.messages = []
+    if DEMO_MODE:
+        st.session_state.plan = initial_state()
+        st.session_state.messages = []
+    else:
+        # Connected mode: start from the backend's demo student (or the saved plan)
+        # and open the chat with a greeting from the personal coach.
+        from backend_bridge import bot_intro, initial_state as backend_initial_state
+        st.session_state.plan = backend_initial_state()
+        st.session_state.messages = [{"role": "assistant", "content": bot_intro(st.session_state.plan)}]
     st.session_state.revision = 0
 
 
