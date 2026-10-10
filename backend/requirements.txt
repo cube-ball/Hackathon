@@ -1,0 +1,4 @@
+# The planner itself needs only the Python standard library (+ tzdata on Windows).
+# Flask is only needed to receive Stripe webhooks: python -m backend.app
+flask>=3,<4
+tzdata
