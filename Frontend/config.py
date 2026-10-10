@@ -1,2 +1,2 @@
 # Change to False only after your teammate provides backend_bridge.py.
-DEMO_MODE = True
+DEMO_MODE = False
