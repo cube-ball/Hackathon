@@ -30,7 +30,7 @@ def get(name, default=None):
 
 
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
-OPENROUTER_MODEL = get("OPENROUTER_MODEL", "~anthropic/claude-haiku-latest")
+OPENROUTER_MODEL = get("OPENROUTER_MODEL", "apodex/apodex-1.1-mini:free")
 DB_PATH = Path(get("STUDYFLOW_DB", str(BACKEND_DIR / "studyflow.db")))
 USER_ID = get("STUDYFLOW_USER_ID", "local-student")   # one synthetic student for the demo
 APP_URL = get("APP_URL", "http://localhost:8501")      # where Stripe sends people back to
